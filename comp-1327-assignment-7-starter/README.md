@@ -5,9 +5,9 @@ Working with team mates to collaborate on github for the first time.
 
 ## Authors
 
-- Developer 1: D Synkiw
-- Developer 2: Beerdavinder Singh
-- Developer 3: Sullivan Lavoie
+- Developer 1: Sullivan Lavoie
+- Developer 2: D Synkiw
+- Developer 3: Beerdavinder Singh
 
 ## Assignment
 
