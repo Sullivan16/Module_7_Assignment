@@ -1,5 +1,5 @@
-"""REQUIRED MODULE DOCUMENTATION
-Includes the DataProcessor class, which processes the transactions
+"""
+Includes the DataProcessor class, which processes the transactions using the transactions list
 """
 
 __author__ = "D Synkiw"
