@@ -1,35 +1,51 @@
-"""REQUIRED MODULE DOCUMENTATION
+"""Module that handles reading input data from a file
 """
 
-__author__ = ""
-__version__ = ""
+__author__ = "Sullivan Lavoie"
+__version__ = "1.0.0"
 
 import csv
 import json
 from os import path
 
 class InputHandler:
-    """REQUIRED: CLASS DOCSTRING
+    """Class to handle input files and provide methods to read and process them.
     """
 
     def __init__(self, file_path: str):
-        """REQUIRED: METHOD DOCSTRING
+        """Initialize the InputHandler with the path to the input file.
+
+        Args:
+            file_path (str): The path to the input file.
         """
         self.__file_path = file_path
 
     @property
     def file_path(self) -> str:
-        """REQUIRED: METHOD DOCSTRING
+        """Get the path of the input file.
+
+        Returns:
+            str: The path of the input file.
         """
         return self.__file_path
 
     def get_file_format(self) -> str:
-        """REQUIRED: METHOD DOCSTRING
+        """Get the format of the input file based on its extension.
+
+        Returns:
+            str: The file format (e.g., 'csv', 'json').
         """
         return self.__file_path.split(".")[-1]
 
     def read_input_data(self) -> list:
-        """REQUIRED: METHOD DOCSTRING
+        """Read the input data from the file.
+
+        This method reads the input file based on its format (CSV or JSON) and returns the data as a list of dictionaries.
+
+        Returns:
+            list: The data read from the file, where each item is a dictionary representing a row of data.
+
+        
         """
         transactions = []
         file_format = self.get_file_format()
@@ -41,7 +57,16 @@ class InputHandler:
         return transactions
 
     def read_csv_data(self) -> list:
-        """REQUIRED: METHOD DOCSTRING
+        """Read the input data from the file.
+
+        This method reads the input file based on its format (CSV or JSON) and returns the data as a list of dictionaries.
+
+        Returns:
+            list: The data read from the file, where each item is a dictionary representing a row of data.
+
+        Raises:
+            
+            FileNotFoundError: If the file does not exist.
         """
         if not path.isfile(self.__file_path):
             raise FileNotFoundError(f"File: {self.__file_path} does not exist.")
@@ -56,7 +81,18 @@ class InputHandler:
         return transactions
             
     def read_json_data(self) -> list:
-        """REQUIRED: METHOD DOCSTRING
+        """Read the input data from a JSON file.
+
+    This method reads the input file assuming it is in JSON 
+    format and returns the data as a list of dictionaries.
+
+    Returns:
+        list: The data read from the JSON file, where 
+        each item is a dictionary representing a data entry.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        
         """
         # Research the json.load function so that you 
         # understand the format of the data once it is
