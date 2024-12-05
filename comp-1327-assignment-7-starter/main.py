@@ -29,7 +29,7 @@ def main() -> None:
     input_handler = InputHandler(input_file_path)
     transactions = input_handler.read_input_data()
 
-    data_processor = DataProcessor(transactions)
+    data_processor = DataProcessor(transactions, logging_file = "fdp_team_6.log", logging_level = "INFO")
     processed_data = data_processor.process_data()
 
 

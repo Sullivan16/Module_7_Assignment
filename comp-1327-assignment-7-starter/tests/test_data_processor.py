@@ -160,6 +160,20 @@ class TestDataProcessor(TestCase):
         
     #assert
         self.assertEqual(expected, actual)
+        
+#test that logging functions
+    def test_logging(self):
+        self.setUp()
+        
+    #arrange
+        test = DataProcessor(self.transactions)
+        transaction = self.transactions[2]
+    
+    #act
+        test.check_suspicious_transactions(transaction)
+        
+    #assert
+        self.assertLogs()
     
 if __name__ == "__main__":
     unittest.main()
