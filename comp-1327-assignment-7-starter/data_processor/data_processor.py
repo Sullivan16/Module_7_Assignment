@@ -26,7 +26,10 @@ class DataProcessor:
         also sets the default parameters for logging.
         
         Args:
-            transactions (list): list of all the transactions from a csv or json file
+            transactions (list): list of all the transactions from a csv or json file 
+            logging_level (str): the default logging level for the class (default: "WARNING")
+            logging_format (str): the default logging format for the class (default: "%(asctime)s - %(levelname)s - %(message)s")
+            logging_file (str): the default name for the logging file for the class (default: "")
             
         Returns: None
         
