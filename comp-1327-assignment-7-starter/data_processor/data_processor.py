@@ -5,6 +5,8 @@ Includes the DataProcessor class, which processes the transactions using the tra
 __author__ = "D Synkiw"
 __version__ = "1.0"
 
+import logging
+
 class DataProcessor:
     """
     Processes transactions, updates the account summary, processes suspicious transactions,
@@ -18,9 +20,10 @@ class DataProcessor:
     UNCOMMON_CURRENCIES = ["XRP", "LTC"]
 
 
-    def __init__(self, transactions: list):
+    def __init__(self, transactions: list, logging_level = "WARNING", logging_format = "%(asctime)s - %(levelname)s - %(message)s", logging_file = ""):
         """
         initializes the the class, takes a list of transactions as an argument, creating the variables for the class
+        also sets the default parameters for logging.
         
         Args:
             transactions (list): list of all the transactions from a csv or json file
@@ -29,6 +32,14 @@ class DataProcessor:
         
         Raises: None
         """
+        
+        logging.basicConfig(level  = logging_level,
+                            format = logging_format,
+                            filemode = "w",
+                            filename = logging_file)
+        
+        self.logger = logging.getLogger(__name__)
+        
         self.__transactions = transactions
         
         #dictionary of all of the accounts and their account number, balances, withdrawels, and deposits (see update_account_summary)
@@ -116,6 +127,7 @@ class DataProcessor:
             self.check_suspicious_transactions(transaction)
             self.update_transaction_statistics(transaction)
 
+        self.logger.info("Data Processing Complete")
         return {
             "account_summaries": self.__account_summaries,
             "suspicious_transactions": self.__suspicious_transactions,
@@ -156,6 +168,7 @@ class DataProcessor:
         elif transaction_type == "withdrawal":
             self.__account_summaries[account_number]["balance"] -= amount
             self.__account_summaries[account_number]["total_withdrawals"] += amount
+        self.logger.info(f"Account summary updated: {self.__account_summaries[account_number]}")
 
     def check_suspicious_transactions(self, transaction: dict) -> None:
         """
@@ -178,6 +191,7 @@ class DataProcessor:
         if amount > self.LARGE_TRANSACTION_THRESHOLD \
             or currency in self.UNCOMMON_CURRENCIES:
             self.__suspicious_transactions.append(transaction)
+            self.logger.warning(f"Suspicious transaction: {transaction}")
 
     def update_transaction_statistics(self, transaction: dict) -> None:
         """
@@ -204,6 +218,8 @@ class DataProcessor:
         #updates the transaction statistics by grouping them by transaction type and saving the amount and how many transactions have been made of that type
         self.__transaction_statistics[transaction_type]["total_amount"] += amount
         self.__transaction_statistics[transaction_type]["transaction_count"] += 1
+        
+        self.logger.info(f"Updated transaction statistics for: {transaction_type}")
 
     def get_average_transaction_amount(self, transaction_type: str) -> float:
         """
