@@ -1,8 +1,8 @@
 """REQUIRED MODULE DOCUMENTATION
 """
 
-__author__ = ""
-__version__ = ""
+__author__ = "Sullivan Lavoie"
+__version__ = "1"
 
 import unittest
 from unittest import TestCase
@@ -32,6 +32,10 @@ class InputHandlerTests(unittest.TestCase):
             + "1,1001,2023-03-01,deposit,1000,CAD,Salary\n"
             + "2,1002,2023-03-01,deposit,1500,CAD,Salary\n"
             + "3,1001,2023-03-02,withdrawal,200,CAD,Groceries")
+        
+        self.input_handler = InputHandler("dummy_path")
+        # Initialize an instance of InputHandler with a dummy file path
+        # This instance will be used in the test methods
 
     # Define unit test functions below
 
@@ -149,6 +153,56 @@ class InputHandlerTests(unittest.TestCase):
 
         # Assert
         self.assertEqual(actual, [])
+
+# Milestone 2 work 
+    def test_data_validation_excludes_non_numeric_amount(self):
+        """Test that transactions with a non-numeric amount are excluded and valid records are included."""
+        # Arrange
+        transactions = [
+            {'amount': 'abc', 'transaction Type': 'deposit'},
+            {'amount': 100, 'transaction Type': 'deposit'}
+        ]
+        
+        # Act
+        valid_transactions = self.input_handler.data_validation(transactions)
+        
+        # Assert
+        self.assertEqual(len(valid_transactions), 1)
+        self.assertEqual(valid_transactions[0]['amount'], 100)
+        self.assertEqual(valid_transactions[0]['transaction Type'], 'deposit')
+
+    def test_data_validation_excludes_negative_amount(self):
+        """Test that transactions with a negative amount are excluded and valid records are included."""
+        # Arrange
+        transactions = [
+            {'amount': -50, 'transaction Type': 'deposit'},
+            {'amount': 100, 'transaction Type': 'deposit'}
+        ]
+        
+        # Act
+        valid_transactions = self.input_handler.data_validation(transactions)
+        
+        # Assert
+        self.assertEqual(len(valid_transactions), 1)
+        self.assertEqual(valid_transactions[0]['amount'], 100)
+        self.assertEqual(valid_transactions[0]['transaction Type'], 'deposit')
+
+    def test_data_validation_excludes_invalid_transaction_type(self):
+        """Test that transactions with an invalid transaction type are excluded and valid records are included."""
+        # Arrange
+        transactions = [
+            {'amount': 100, 'transaction Type': 'invalid_type'},
+            {'amount': 100, 'transaction Type': 'deposit'}
+        ]
+        
+        # Act
+        valid_transactions = self.input_handler.data_validation(transactions)
+        
+        # Assert
+        self.assertEqual(len(valid_transactions), 1)
+        self.assertEqual(valid_transactions[0]['amount'], 100)
+        self.assertEqual(valid_transactions[0]['transaction Type'], 'deposit')
+
 
         
             
