@@ -74,10 +74,10 @@ class TestOutputHandler(TestCase):
         output_handler = OutputHandler(self.account_summaries, self.suspicious_transactions, self.transaction_statistics)
         output_handler.write_account_summaries_to_csv("test_accounts.csv")
         
-        # Check that the open function is called once with the correct path and mode
+        
         mock_open_file.assert_called_once_with("test_accounts.csv", 'w', newline='')
 
-        # Check the number of rows written (including the header)
+        
         handle = mock_open_file()
         handle.write.assert_any_call('Account number,Balance,Total Deposits,Total Withdrawals\n')
         handle.write.assert_any_call('1001,50,100,50\n')
@@ -88,10 +88,10 @@ class TestOutputHandler(TestCase):
         output_handler = OutputHandler(self.account_summaries, self.suspicious_transactions, self.transaction_statistics)
         output_handler.write_suspicious_transactions_to_csv("test_transactions.csv")
         
-        # Check that the open function is called once with the correct path and mode
+        
         mock_open_file.assert_called_once_with("test_transactions.csv", 'w', newline='')
 
-        # Check the number of rows written (including the header)
+        
         handle = mock_open_file()
         handle.write.assert_any_call('Transaction ID,Account number,Date,Transaction type,Amount,Currency,Description\n')
         handle.write.assert_any_call('1,1001,2023-03-14,deposit,250,XRP,crypto investment\n')
@@ -101,10 +101,10 @@ class TestOutputHandler(TestCase):
         output_handler = OutputHandler(self.account_summaries, self.suspicious_transactions, self.transaction_statistics)
         output_handler.write_transaction_statistics_to_csv("test_statistics.csv")
         
-        # Check that the open function is called once with the correct path and mode
+        
         mock_open_file.assert_called_once_with("test_statistics.csv", 'w', newline='')
 
-        # Check the number of rows written (including the header)
+        
         handle = mock_open_file()
         handle.write.assert_any_call('Transaction type,Total amount,Transaction count\n')
         handle.write.assert_any_call('deposit,300,2\n')
